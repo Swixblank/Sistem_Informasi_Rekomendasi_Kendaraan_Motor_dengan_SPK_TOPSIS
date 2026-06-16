@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honda Trio Motor - Kelola Motor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .logo .trio {
+            color: #1e3a8a;
+        }
+
+        .logo .motor {
+            color: #dc2626;
+        }
+
+        .logo .system {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #e5e7eb;
+            border-radius: 20px;
+            padding: 8px 16px;
+            gap: 10px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .admin-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .admin-role {
+            font-size: 12px;
+            color: #dc2626;
+            border: 1px solid #dc2626;
+            padding: 2px 8px;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5aa8 100%);
+            color: white;
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-content {
+            padding: 0 20px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+            padding: 0 0 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .honda-badge {
+            background-color: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .page-info h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .page-info p {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        .btn-tambah {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-tambah:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: linear-gradient(135deg, #3b5bdb 0%, #4f6dd9 100%);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            padding: 0 12px;
+            gap: 10px;
+        }
+
+        .filter-search input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            outline: none;
+            padding: 10px 0;
+            flex: 1;
+        }
+
+        .filter-select,
+        .btn-filter {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background-color: white;
+            color: #1f2937;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover,
+        .btn-filter:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead {
+            background-color: #3b5bdb;
+            color: white;
+        }
+
+        .table th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .table td {
+            padding: 16px;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .table-number {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .motor-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .type-badge.matic {
+            background-color: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .type-badge.bebek {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .type-badge.sport {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #f3f4f6;
+            border-color: #3b82f6;
+        }
+
+        /* Pagination */
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .pagination-btn.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .filter-section {
+                flex-wrap: wrap;
+            }
+
+            .table {
+                font-size: 12px;
+            }
+
+            .table th,
+            .table td {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+
+            .filter-search {
+                width: 100%;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="trio">Trio</span><span class="motor">Motor</span> <span class="system">TOPSIS System</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="admin-badge">
+                <div class="admin-avatar">AD</div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="honda-badge">HONDA</div>
+                    <h2>Trio Motor Perintis</h2>
+                    <p>Panel Administrator</p>
+                </div>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Menu</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Data Master</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="kelola-motor.html" class="active">Kelola Motor</a></li>
+                        <li><a href="kriteria-bobot.html">Kriteria & Bobot</a></li>
+                        <li><a href="kelola-pengguna.html">Kelola Pengguna</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Laporan</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Hasil Rekomendasi</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Akun</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Keluar</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-info">
+                    <h1>Data Sepeda Motor</h1>
+                    <p>Kelola seluruh data motor Honda yang tersedia di dealer</p>
+                </div>
+                <button class="btn-tambah" onclick="window.location.href='tambah-motor.html'">+ Tambah Motor</button>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-search">
+                    <span>🔍</span>
+                    <input type="text" placeholder="Cari nama motor...">
+                </div>
+                <select class="filter-select">
+                    <option>Semua Tipe</option>
+                    <option>Matic</option>
+                    <option>Bebek</option>
+                    <option>Sport</option>
+                </select>
+                <button class="btn-filter">Filter</button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NAMA MOTOR</th>
+                            <th>TIPE</th>
+                            <th>HARGA (OTR)</th>
+                            <th>KAPASITAS MESIN</th>
+                            <th>KONSUMSI BBM</th>
+                            <th>TRANSMISI</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-number">1</td>
+                            <td class="motor-name">Honda Beat Sporty eSP</td>
+                            <td><span class="type-badge matic">Matic</span></td>
+                            <td class="price">Rp 19.155.000</td>
+                            <td>109,5 cc</td>
+                            <td>59 km/L</td>
+                            <td>Otomatis</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('1', 'Honda Beat Sporty eSP')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-number">2</td>
+                            <td class="motor-name">All New Honda Vario 160</td>
+                            <td><span class="type-badge matic">Matic</span></td>
+                            <td class="price">Rp 28.375.000</td>
+                            <td>156,9 cc</td>
+                            <td>52 km/L</td>
+                            <td>Otomatis</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('2', 'All New Honda Vario 160')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-number">3</td>
+                            <td class="motor-name">New Supra X 125 FI</td>
+                            <td><span class="type-badge bebek">Bebek</span></td>
+                            <td class="price">Rp 21.500.000</td>
+                            <td>124,89 cc</td>
+                            <td>64 km/L</td>
+                            <td>Manual</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('3', 'New Supra X 125 FI')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-number">4</td>
+                            <td class="motor-name">All New CB150R</td>
+                            <td><span class="type-badge sport">Sport</span></td>
+                            <td class="price">Rp 34.880.000</td>
+                            <td>149,16 cc</td>
+                            <td>44 km/L</td>
+                            <td>Manual</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('4', 'All New CB150R')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-number">5</td>
+                            <td class="motor-name">All New Honda Scoopy</td>
+                            <td><span class="type-badge matic">Matic</span></td>
+                            <td class="price">Rp 23.101.000</td>
+                            <td>109,5 cc</td>
+                            <td>57 km/L</td>
+                            <td>Otomatis</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('5', 'All New Honda Scoopy')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-number">6</td>
+                            <td class="motor-name">New Revo FI</td>
+                            <td><span class="type-badge bebek">Bebek</span></td>
+                            <td class="price">Rp 18.085.000</td>
+                            <td>109,17 cc</td>
+                            <td>66 km/L</td>
+                            <td>Manual</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn" title="Edit" onclick="window.location.href='edit-motor.html'">✏️</button>
+                                    <button type="button" class="action-btn" title="Delete" onclick="deleteMotor('6', 'New Revo FI')">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-section">
+                <div class="pagination-info">Menampilkan 6 dari 14 motor</div>
+                <div class="pagination-buttons">
+                    <button class="pagination-btn">< Sebelumnya</button>
+                    <button class="pagination-btn">6</button>
+                    <button class="pagination-btn active">7</button>
+                    <button class="pagination-btn">Setelahnya ></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Fungsi untuk menghapus motor
+        function deleteMotor(motorId, motorName) {
+        // Konfirmasi penghapusan
+        if (confirm(`Apakah Anda yakin ingin menghapus motor "${motorName}"?\n\nTindakan ini tidak dapat dibatalkan.`)) {
+            // Tampilkan loading state (opsional)
+            const deleteBtn = event.target;
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = '⏳';
+
+            // Simulasi proses penghapusan (ganti dengan API call sebenarnya)
+            setTimeout(() => {
+                // Jika berhasil, hapus row dari tabel
+                const row = event.target.closest('tr');
+                row.style.opacity = '0.5';
+                row.style.pointerEvents = 'none';
+
+                // Tampilkan alert sukses
+                alert(`Motor "${motorName}" berhasil dihapus!`);
+
+                // Hapus baris dari tabel dengan animasi
+                setTimeout(() => {
+                    row.remove();
+                    // Jika tidak ada data lagi, tampilkan pesan "tidak ada data"
+                    const tableBody = document.querySelector('.table tbody');
+                    if (tableBody.querySelectorAll('tr').length === 0) {
+                        const emptyRow = document.createElement('tr');
+                        emptyRow.innerHTML = `
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #9ca3af;">
+                                <div style="font-size: 48px; margin-bottom: 15px;">📭</div>
+                                <p>Tidak ada data motor</p>
+                            </td>
+                        `;
+                        tableBody.appendChild(emptyRow);
+                    }
+                }, 300);
+            }, 500);
+        }
+    }
+        console.log('Kelola Motor page loaded');
+    </script>
+</body>
+</html>

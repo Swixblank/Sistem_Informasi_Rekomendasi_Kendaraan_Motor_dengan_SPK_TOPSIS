@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honda Trio Motor - Kriteria & Bobot TOPSIS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .logo .trio {
+            color: #1e3a8a;
+        }
+
+        .logo .motor {
+            color: #dc2626;
+        }
+
+        .logo .system {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #e5e7eb;
+            border-radius: 20px;
+            padding: 8px 16px;
+            gap: 10px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .admin-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .admin-role {
+            font-size: 12px;
+            color: #dc2626;
+            border: 1px solid #dc2626;
+            padding: 2px 8px;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5aa8 100%);
+            color: white;
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-content {
+            padding: 0 20px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+            padding: 0 0 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .honda-badge {
+            background-color: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Daftar Kriteria Card */
+        .criteria-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .criteria-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .criteria-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .bobot-indicator {
+            background-color: #bfdbfe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .criteria-table thead {
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .criteria-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .criteria-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .criteria-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .criteria-table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .criteria-table td {
+            padding: 16px;
+            font-size: 14px;
+        }
+
+        .criteria-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .type-badge.cost {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .type-badge.benefit {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .bobot-value {
+            font-weight: 700;
+            color: #dc2626;
+            font-size: 15px;
+        }
+
+        .progress-bar {
+            width: 80%;
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #1e3a8a;
+            border-radius: 3px;
+        }
+
+        .edit-btn {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            border-color: #3b82f6;
+            background-color: #f3f4f6;
+        }
+
+        /* Tambah Kriteria Form */
+        .add-criteria-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5aa8 100%);
+            border-radius: 8px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group select option {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .bobot-display {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Info Box */
+        .info-box {
+            background-color: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 30px;
+        }
+
+        .info-box-header {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .info-box-title {
+            font-weight: 700;
+            color: #92400e;
+            font-size: 14px;
+        }
+
+        .info-box-content {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        .info-box-content p {
+            margin-bottom: 6px;
+        }
+
+        .info-box-content strong {
+            color: #92400e;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .criteria-table {
+                font-size: 12px;
+            }
+
+            .criteria-table th,
+            .criteria-table td {
+                padding: 8px 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="trio">Trio</span><span class="motor">Motor</span> <span class="system">TOPSIS System</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="admin-badge">
+                <div class="admin-avatar">AD</div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="honda-badge">HONDA</div>
+                    <h2>Trio Motor Perintis</h2>
+                    <p>Panel Administrator</p>
+                </div>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Menu</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Data Master</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="kelola-motor.html">Kelola Motor</a></li>
+                        <li><a href="kriteria-bobot.html" class="active">Kriteria & Bobot</a></li>
+                        <li><a href="kelola-pengguna.html">Kelola Pengguna</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Laporan</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Hasil Rekomendasi</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Akun</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Keluar</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Kriteria & Bobot TOPSIS</h1>
+                <p>Atur kriteria dan nilai bobot yang digunakan dalam perhitungan metode Technique for Order of Preference by Similarity to Ideal Solution</p>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Daftar Kriteria -->
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-title">Daftar Kriteria</div>
+                        <div class="bobot-indicator">Σ Bobot = 100 ✓</div>
+                    </div>
+                    <table class="criteria-table">
+                        <thead>
+                            <tr>
+                                <th>Kriteria</th>
+                                <th>Jenis</th>
+                                <th>Bobot</th>
+                                <th>Visual</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criteria-name">Harga</td>
+                                <td><span class="type-badge cost">Cost</span></td>
+                                <td class="bobot-value">0.30</td>
+                                <td><div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div></td>
+                                <td><button class="edit-btn">✏️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name">Konsumsi BBM</td>
+                                <td><span class="type-badge benefit">Benefit</span></td>
+                                <td class="bobot-value">0.25</td>
+                                <td><div class="progress-bar"><div class="progress-fill" style="width: 25%"></div></div></td>
+                                <td><button class="edit-btn">✏️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name">Kapasitas Mesin</td>
+                                <td><span class="type-badge benefit">Benefit</span></td>
+                                <td class="bobot-value">0.20</td>
+                                <td><div class="progress-bar"><div class="progress-fill" style="width: 20%"></div></div></td>
+                                <td><button class="edit-btn">✏️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name">Transmisi</td>
+                                <td><span class="type-badge benefit">Benefit</span></td>
+                                <td class="bobot-value">0.15</td>
+                                <td><div class="progress-bar"><div class="progress-fill" style="width: 15%"></div></div></td>
+                                <td><button class="edit-btn">✏️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name">Harga Suku Cadang</td>
+                                <td><span class="type-badge cost">Cost</span></td>
+                                <td class="bobot-value">0.10</td>
+                                <td><div class="progress-bar"><div class="progress-fill" style="width: 10%"></div></div></td>
+                                <td><button class="edit-btn">✏️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tambah Kriteria Baru -->
+                <div class="add-criteria-card">
+                    <div class="form-title">Tambah Kriteria Baru</div>
+                    
+                    <form onsubmit="handleAddCriteria(event)">
+                        <div class="form-group">
+                            <label for="criteriaName">Nama Kriteria</label>
+                            <input type="text" id="criteriaName" placeholder="Contoh: Garansi Motor" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="criteriaType">Jenis</label>
+                            <select id="criteriaType" required onchange="updateBobot()">
+                                <option value="">Pilih Jenis</option>
+                                <option value="benefit">Benefit</option>
+                                <option value="cost">Cost</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="criteriaBobot">Bobot (0.00-1.00)</label>
+                            <input type="number" id="criteriaBobot" min="0" max="1" step="0.01" placeholder="0.00" required onchange="updateBobot()">
+                            <div class="bobot-display" id="bobotDisplay">Bobot akan ditampilkan di sini</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="criteriaDesc">Keterangan</label>
+                            <textarea id="criteriaDesc" placeholder="Penjelasan singkat tentang kriteria ini..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Simpan Kriteria</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>ℹ️</span>
+                    <div class="info-box-title">Panduan Bobot TOPSIS</div>
+                </div>
+                <div class="info-box-content">
+                    <p><strong>Total seluruh bobot kriteria harus = 1.00</strong></p>
+                    <p><strong>Benefit</strong> = nilai lebih tinggi lebih baik (BBM irit)</p>
+                    <p><strong>Cost</strong> = nilai lebih rendah lebih baik (harga murah).</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function updateBobot() {
+            const bobot = document.getElementById('criteriaBobot').value;
+            const bobotDisplay = document.getElementById('bobotDisplay');
+            
+            if (bobot) {
+                const percentage = (parseFloat(bobot) * 100).toFixed(0);
+                bobotDisplay.textContent = `Bobot: ${bobot} (${percentage}%)`;
+            } else {
+                bobotDisplay.textContent = 'Bobot akan ditampilkan di sini';
+            }
+        }
+
+        function handleAddCriteria(event) {
+            event.preventDefault();
+            const name = document.getElementById('criteriaName').value;
+            const type = document.getElementById('criteriaType').value;
+            const bobot = document.getElementById('criteriaBobot').value;
+            
+            alert(`Kriteria berhasil ditambahkan!\nNama: ${name}\nJenis: ${type}\nBobot: ${bobot}`);
+            event.target.reset();
+            document.getElementById('bobotDisplay').textContent = 'Bobot akan ditampilkan di sini';
+        }
+
+        console.log('Kriteria & Bobot page loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honda Trio Motor - Edit Motor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .logo .trio {
+            color: #1e3a8a;
+        }
+
+        .logo .motor {
+            color: #dc2626;
+        }
+
+        .logo .system {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #e5e7eb;
+            border-radius: 20px;
+            padding: 8px 16px;
+            gap: 10px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .admin-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .admin-role {
+            font-size: 12px;
+            color: #dc2626;
+            border: 1px solid #dc2626;
+            padding: 2px 8px;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5aa8 100%);
+            color: white;
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-content {
+            padding: 0 20px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+            padding: 0 0 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .honda-badge {
+            background-color: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Image Upload Section */
+        .image-upload-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-upload-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f9fafb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+
+        .image-placeholder.has-image {
+            border-style: solid;
+            border-color: #d1d5db;
+            padding: 0;
+        }
+
+        .image-placeholder.has-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-icon {
+            font-size: 40px;
+        }
+
+        .upload-text {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .upload-text strong {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .remove-image-btn {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .remove-image-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Form Section */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        /* Button Group */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-submit {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-cancel {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d1d5db;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="trio">Trio</span><span class="motor">Motor</span> <span class="system">TOPSIS System</span>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Cari...">
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="admin-badge">
+                <div class="admin-avatar">AD</div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="honda-badge">HONDA</div>
+                    <h2>Trio Motor Perintis</h2>
+                    <p>Panel Administrator</p>
+                </div>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Menu</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Dashboard</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Data Master</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active">Kelola Motor</a></li>
+                        <li><a href="#">Kriteria & Bobot</a></li>
+                        <li><a href="#">Kelola Pengguna</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Laporan</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Hasil Rekomendasi</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-section">
+                    <p class="sidebar-section-title">Akun</p>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Keluar</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Edit Motor</h1>
+                <p>Ubah informasi tentang motor yang sudah ada di database</p>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <div class="form-content">
+                    <form onsubmit="handleEditMotor(event)">
+                        <!-- Content Grid -->
+                        <div class="content-grid">
+                            <!-- Left: Image Upload -->
+                            <div class="image-upload-section">
+                                <div class="image-upload-title">Foto Motor</div>
+                                <div class="image-placeholder has-image" id="imageUpload" onclick="document.getElementById('imageInput').click()">
+                                    <img src="https://via.placeholder.com/300?text=Honda+Beat" alt="Motor Image">
+                                </div>
+                                <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+                                <button type="button" class="remove-image-btn" id="removeImageBtn" onclick="removeImage()">Hapus Gambar</button>
+                            </div>
+
+                            <!-- Right: Form Fields -->
+                            <div>
+                                <!-- Informasi Dasar -->
+                                <div class="form-section">
+                                    <div class="form-section-title">Informasi Dasar</div>
+                                    
+                                    <div class="form-group">
+                                        <label for="motorName">Nama Motor <span class="required">*</span></label>
+                                        <input type="text" id="motorName" value="Honda Beat Sporty eSP" required>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="motorType">Tipe Motor <span class="required">*</span></label>
+                                            <select id="motorType" required>
+                                                <option value="matic" selected>Matic</option>
+                                                <option value="bebek">Bebek</option>
+                                                <option value="sport">Sport</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="motorYear">Tahun Keluaran <span class="required">*</span></label>
+                                            <input type="number" id="motorYear" value="2024" min="2000" max="2099" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Spesifikasi Teknis -->
+                                <div class="form-section" style="margin-top: 25px;">
+                                    <div class="form-section-title">Spesifikasi Teknis</div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="motorEngine">Kapasitas Mesin (cc) <span class="required">*</span></label>
+                                            <input type="number" id="motorEngine" value="109.5" step="0.01" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="motorFuel">Konsumsi BBM (km/L) <span class="required">*</span></label>
+                                            <input type="number" id="motorFuel" value="59" step="0.1" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="motorTransmission">Transmisi <span class="required">*</span></label>
+                                            <select id="motorTransmission" required>
+                                                <option value="otomatis" selected>Otomatis</option>
+                                                <option value="manual">Manual</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="motorPower">Tenaga (PS)</label>
+                                            <input type="number" id="motorPower" value="8.2" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Harga -->
+                                <div class="form-section" style="margin-top: 25px;">
+                                    <div class="form-section-title">Harga</div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="motorPrice">Harga OTR (Rp) <span class="required">*</span></label>
+                                            <input type="number" id="motorPrice" value="19155000" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="motorSparePrice">Harga Suku Cadang (Rp)</label>
+                                            <input type="number" id="motorSparePrice" value="1500000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Deskripsi -->
+                                <div class="form-section" style="margin-top: 25px;">
+                                    <div class="form-section-title">Deskripsi</div>
+                                    
+                                    <div class="form-group">
+                                        <label for="motorDescription">Keterangan Motor</label>
+                                        <textarea id="motorDescription">Motor matic entry level dengan desain sporty yang cocok untuk anak muda. Konsumsi BBM yang hemat dan harga terjangkau.</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button Group -->
+                        <div class="button-group">
+                            <button type="button" class="btn btn-cancel" onclick="goBack()">Batal</button>
+                            <button type="submit" class="btn btn-submit">Perbarui Motor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let selectedImage = null;
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    const placeholder = document.getElementById('imageUpload');
+                    placeholder.classList.add('has-image');
+                    placeholder.innerHTML = `<img src="${selectedImage}" alt="Motor Image">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            selectedImage = null;
+            const placeholder = document.getElementById('imageUpload');
+            placeholder.classList.remove('has-image');
+            placeholder.innerHTML = `<img src="https://via.placeholder.com/300?text=Honda+Beat" alt="Motor Image">`;
+            document.getElementById('imageInput').value = '';
+            placeholder.classList.add('has-image');
+        }
+
+        function handleEditMotor(event) {
+            event.preventDefault();
+            
+            const motorName = document.getElementById('motorName').value;
+            const motorType = document.getElementById('motorType').value;
+            const motorPrice = document.getElementById('motorPrice').value;
+
+            alert(`Motor berhasil diperbarui!\nNama: ${motorName}\nTipe: ${motorType}\nHarga: Rp ${parseInt(motorPrice).toLocaleString('id-ID')}`);
+        }
+
+        function goBack() {
+            if (confirm('Yakin ingin kembali? Perubahan yang belum disimpan akan hilang.')) {
+                window.history.back();
+            }
+        }
+
+        // Drag and drop support
+        const imageUpload = document.getElementById('imageUpload');
+        imageUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = '#3b82f6';
+            imageUpload.style.backgroundColor = '#eff6ff';
+        });
+
+        imageUpload.addEventListener('dragleave', () => {
+            imageUpload.style.borderColor = '#d1d5db';
+            imageUpload.style.backgroundColor = '#f9fafb';
+        });
+
+        imageUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = '#d1d5db';
+            imageUpload.style.backgroundColor = '#f9fafb';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('imageInput').files = files;
+                handleImageUpload({ target: { files: files } });
+            }
+        });
+
+        console.log('Edit Motor page loaded');
+    </script>
+</body>
+</html>

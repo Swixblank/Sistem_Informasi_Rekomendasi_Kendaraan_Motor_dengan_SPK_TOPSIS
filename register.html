@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honda Trio Motor - Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left Section */
+        .left-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5aa8 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 30%;
+            position: relative;
+        }
+
+        .honda-badge {
+            background-color: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+
+        .left-section h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .left-section .subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .info-box ul li {
+            margin-bottom: 8px;
+        }
+
+        .info-box ul li:before {
+            content: "• ";
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* Right Section */
+        .right-section {
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .form-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #dc2626;
+            flex-shrink: 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            color: #6b7280;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .checkbox-group a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .submit-button:hover {
+            background-color: #b91c1c;
+        }
+
+        .submit-button:active {
+            background-color: #991b1b;
+        }
+
+        .form-footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-section {
+                width: 100%;
+                padding: 40px 30px;
+            }
+
+            .right-section {
+                width: 100%;
+                padding: 30px;
+            }
+
+            .left-section h1 {
+                font-size: 32px;
+            }
+
+            .form-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="honda-badge">HONDA</div>
+            
+            <h1>Buat Akun Baru</h1>
+            <p class="subtitle">Daftarkan diri Anda untuk mendapatkan rekomendasi motor personal</p>
+            <div class="info-box">
+                <h3>Setelah mendaftar, Anda bisa:</h3>
+                <ul>
+                    <li>Dapatkan rekomendasi motor sesuai budget</li>
+                    <li>Bandingkan spesifikasi antar motor</li>
+                    <li>Simpan riwayat pencarian Anda</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="form-container">
+                <h2 class="form-title">Registrasi Akun</h2>
+                <p class="form-subtitle">Isi data diri Anda dengan lengkap dan benar</p>
+
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName">Nama</label>
+                        <input type="text" id="registerName" name="name" placeholder="Melina" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPhone">Telepon</label>
+                        <input type="tel" id="registerPhone" name="phone" placeholder="0812-3456-7890" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="email" placeholder="melina123@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" placeholder="••••••" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Konfirmasi Password</label>
+                        <input type="password" id="registerConfirmPassword" name="confirmPassword" placeholder="••••••" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">Saya menyetujui <a href="#syarat" onclick="event.preventDefault()">syarat dan ketentuan</a> penggunaan aplikasi ini.</label>
+                    </div>
+
+                    <button type="submit" class="submit-button">Daftar sekarang</button>
+                </form>
+
+                <div class="form-footer">
+                    Sudah punya akun? <a href="login.html" onclick="goToLogin(event)">Masuk di sini</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const phone = document.getElementById('registerPhone').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Password tidak cocok!');
+                return;
+            }
+
+            alert(`Registrasi berhasil!\nNama: ${name}\nEmail: ${email}\nTelepon: ${phone}`);
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+
+        function goToLogin(event) {
+            event.preventDefault();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
